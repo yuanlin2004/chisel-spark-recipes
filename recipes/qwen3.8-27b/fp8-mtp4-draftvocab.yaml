@@ -25,7 +25,7 @@ defaults:
   additional_config: '{"chisel_draft_vocab": "qwen3.8-27b"}'
 
 pre_exec:
-  - "pip install --no-deps 'chisel-draftvocab @ git+https://github.com/yuanlin2004/chisel-spark-recipes@qwen3.8-27b-v1#subdirectory=plugin'"
+  - "pip install --no-deps https://github.com/yuanlin2004/chisel-spark-recipes/releases/download/qwen3.8-27b-v1/chisel_draftvocab-0.1.0-py3-none-any.whl"
 
 command: |
   vllm serve {model} \
