@@ -19,6 +19,8 @@ For comparison, on the same box with the same benchmark, stock vLLM serves Qwen3
 
 Every row links to its recipe. Every result has a folder under [`results/`](results/) with the raw benchmark and quality files, the versions used, and how to reproduce them. A published recipe and its results never change; a better result is a new recipe and a new row.
 
+Discussion: [NVIDIA Developer Forums thread](https://forums.developer.nvidia.com/t/qwen3-8-27b-fp8-on-one-spark-23-1-tok-s-single-user-quality-measured-against-bf16-plus-a-question-about-dflash2-on-long-contexts/385526).
+
 ## Run it
 
 With [sparkrun](https://github.com/spark-arena/sparkrun):
