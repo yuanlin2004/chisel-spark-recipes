@@ -3,6 +3,10 @@ model: Qwen/Qwen3.8-27B-FP8
 runtime: vllm
 container: vllm/vllm-openai:v0.31.0
 
+# The official image's ENTRYPOINT is `vllm serve`; clear it so sparkrun can run its own command.
+executor_config:
+  entrypoint: ""
+
 metadata:
   description: >-
     Qwen3.8-27B-FP8 with its built-in MTP head (4 draft tokens) and Chisel's reduced-vocabulary
