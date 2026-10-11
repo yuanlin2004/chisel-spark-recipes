@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="logo/chisel-dark.svg">
+    <img src="logo/chisel-light.svg" alt="Chisel logo" width="360">
+  </picture>
+</p>
+
 # chisel-spark-recipes
 
 Tuned LLM serving recipes for one NVIDIA DGX Spark (GB10). Each one is published with its measured single-user decode speed and its task scores against the model's own BF16 weights.

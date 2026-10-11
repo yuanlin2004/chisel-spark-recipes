@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Chisel — dark-background logo</title>
+  <desc id="desc">A faceted silver and charcoal three-dimensional C with a glowing orange inner face above a white Chisel wordmark and orange chisel accent on a near-black background. Editable vector paths and gradients; lettering is outlined.</desc>
+  <defs>
+    <linearGradient id="top" gradientUnits="userSpaceOnUse" x1="705" y1="164" x2="790" y2="302" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#bdbbb9" /><stop offset=".52" stop-color="#e4e1dd" /><stop offset="1" stop-color="#fff4e4" />
+    </linearGradient>
+    <linearGradient id="left" gradientUnits="userSpaceOnUse" x1="550" y1="258" x2="662" y2="526" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#5d6064" /><stop offset=".52" stop-color="#404246" /><stop offset="1" stop-color="#292c30" />
+    </linearGradient>
+    <linearGradient id="innerTop" gradientUnits="userSpaceOnUse" x1="844" y1="246" x2="792" y2="374" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#53504e" /><stop offset=".37" stop-color="#302a25" /><stop offset=".7" stop-color="#985119" /><stop offset="1" stop-color="#ffb543" />
+    </linearGradient>
+    <linearGradient id="rightTop" gradientUnits="userSpaceOnUse" x1="892" y1="262" x2="914" y2="346" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#64594f" /><stop offset=".65" stop-color="#403329" /><stop offset="1" stop-color="#ad5e20" />
+    </linearGradient>
+    <linearGradient id="orange" gradientUnits="userSpaceOnUse" x1="674" y1="316" x2="762" y2="421" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#9a4c13" /><stop offset=".45" stop-color="#f49b2c" /><stop offset="1" stop-color="#ffe291" />
+    </linearGradient>
+    <linearGradient id="lowerTop" gradientUnits="userSpaceOnUse" x1="750" y1="451" x2="854" y2="597" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#ffe293" /><stop offset=".3" stop-color="#f9e6c9" /><stop offset=".56" stop-color="#dfdedd" /><stop offset="1" stop-color="#a0a3a5" />
+    </linearGradient>
+    <linearGradient id="lowerFront" gradientUnits="userSpaceOnUse" x1="613" y1="515" x2="801" y2="659" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#222326" /><stop offset=".48" stop-color="#242528" /><stop offset="1" stop-color="#363536" />
+    </linearGradient>
+    <linearGradient id="lowerRight" gradientUnits="userSpaceOnUse" x1="786" y1="651" x2="966" y2="561" gradientTransform="matrix(.87 0 0 .88 92 46)">
+      <stop stop-color="#0e1013" /><stop offset="1" stop-color="#30363a" />
+    </linearGradient>
+    <linearGradient id="charcoal" gradientUnits="userSpaceOnUse" x1="768" y1="708" x2="768" y2="893">
+      <stop stop-color="#f1f0ed" /><stop offset=".5" stop-color="#e6e5e3" /><stop offset="1" stop-color="#faf9f7" />
+    </linearGradient>
+    <linearGradient id="accent" gradientUnits="userSpaceOnUse" x1="563" y1="744" x2="605" y2="755">
+      <stop stop-color="#ffb154" /><stop offset="1" stop-color="#ef8625" />
+    </linearGradient>
+  <radialGradient id="backgroundGlow" cx=".49" cy=".40" r=".61"><stop offset="0" stop-color="#14120f" /><stop offset=".62" stop-color="#080808" /><stop offset="1" stop-color="#020303" /></radialGradient></defs>
+  <path id="background" fill="url(#backgroundGlow)" d="M0 0H1536V1024H0Z" />
+  <g id="faceted-c">
+    <path id="upper-right-face" fill="url(#rightTop)" d="M944 236V296L837 359H777Z" />
+    <path id="upper-inner-face" fill="url(#innerTop)" d="M749 278L944 236L777 359L749 377Z" />
+    <path id="orange-inner-face" fill="url(#orange)" d="M669 325L749 278V429L669 468Z" />
+    <path id="left-face" fill="url(#left)" d="M566 267L669 325V468L566 542Z" />
+    <path id="top-face" fill="url(#top)" d="M566 267L790 142L944 236L749 278L669 325Z" />
+    <path id="lower-front-face" fill="url(#lowerFront)" d="M566 542L669 468L825 557L746 646Z" />
+    <path id="lower-right-face" fill="url(#lowerRight)" d="M746 646L825 557L952 544L755 652Z" />
+    <path id="lower-top-face" fill="url(#lowerTop)" d="M669 468L749 429L952 544L825 557Z" />
+    <g fill="none" stroke-linejoin="round" stroke-width="1.2">
+      <path stroke="#fff" stroke-opacity=".78" d="M566 267L669 325L749 278L944 236L777 359M669 325V468L749 429M669 468L825 557L952 544" />
+      <path stroke="#bdbbb8" stroke-opacity=".5" d="M566 542L669 468M825 557L746 646" />
+    <path stroke="#ffc06b" stroke-opacity=".9" d="M790 142L944 236M669 325V468L749 429M669 468L825 557" /><path stroke="#f29938" stroke-width=".8" stroke-opacity=".85" d="M566 542L746 646" /></g>
+  </g>
+  <g id="wordmark" fill="url(#charcoal)" aria-label="Chisel" transform="matrix(.82 0 0 .825 140.06 97.275)">
+    <path id="letter-c" d="M547 709H459C408 709 367 750 367 801C367 852 406 893 458 893H540V853H460C432 853 411 831 411 801C411 772 432 749 461 749H525L547 727Z" />
+    <path id="chisel-accent" fill="url(#accent)" d="M563 708H567L605 725V764L563 789Z" />
+    <path id="letter-h" d="M563 788L604 764Q614 758 627 758H668C697 758 717 778 717 806V893H675V815Q675 794 656 794H625Q605 794 605 815V893H563Z" />
+    <path id="letter-i" d="M742 708H782V741H742ZM741 756H782V893H741Z" />
+    <path id="letter-s" d="M931 758H843C817 758 799 776 799 801C799 825 816 841 842 841H889Q900 841 900 850Q900 859 889 859H799V893H896C922 893 939 876 939 851C939 826 922 808 896 808H848Q838 808 838 800Q838 791 849 791H931Z" />
+    <path id="letter-e" fill-rule="evenodd" d="M1000 758H1062C1089 758 1107 777 1107 804V839H995V845Q995 859 1010 859H1098V893H1000C973 893 955 874 955 848V804C955 777 974 758 1000 758ZM995 810H1067V805Q1067 791 1053 791H1010Q995 791 995 806Z" />
+    <path id="letter-l" d="M1127 708H1168V893H1127Z" />
+  </g>
+</svg>
