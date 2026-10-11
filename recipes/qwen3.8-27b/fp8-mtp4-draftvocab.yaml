@@ -6,7 +6,7 @@ container: vllm/vllm-openai:v0.31.0
 metadata:
   description: >-
     Qwen3.8-27B-FP8 with its built-in MTP head (4 draft tokens) and Chisel's reduced-vocabulary
-    draft head; ~23 tok/s single-user decode on one DGX Spark, task scores 99.4-101.7% of BF16.
+    draft head; ~23 tok/s single-user decode on one DGX Spark, task scores 98.7-102.5% of BF16.
     Results and method: results/qwen3.8-27b/fp8-mtp4-draftvocab/
 
 defaults:
@@ -23,10 +23,9 @@ defaults:
   reasoning_parser: qwen3
   speculative_config: '{"method": "mtp", "num_speculative_tokens": 4}'
   additional_config: '{"chisel_draft_vocab": "qwen3.8-27b"}'
-  chisel_draftvocab: "chisel-draftvocab @ git+https://github.com/yuanlin2004/chisel-spark-recipes@qwen3.8-27b-v1#subdirectory=plugin"
 
 pre_exec:
-  - "pip install --no-deps '{chisel_draftvocab}'"
+  - "pip install --no-deps 'chisel-draftvocab @ git+https://github.com/yuanlin2004/chisel-spark-recipes@qwen3.8-27b-v1#subdirectory=plugin'"
 
 command: |
   vllm serve {model} \
