@@ -25,7 +25,7 @@ With [sparkrun](https://github.com/spark-arena/sparkrun):
 
 ```
 sparkrun registry add https://github.com/yuanlin2004/chisel-spark-recipes
-sparkrun run @chisel/qwen3.8-27b/fp8-mtp4-draftvocab
+sparkrun run @chisel/fp8-mtp4-draftvocab --tp 1 --hosts localhost
 ```
 
 With plain docker:
