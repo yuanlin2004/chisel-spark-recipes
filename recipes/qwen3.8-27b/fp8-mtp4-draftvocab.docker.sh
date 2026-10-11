@@ -18,7 +18,7 @@ exec docker run --rm --name chisel-qwen38-27b --gpus all --ipc=host --network=ho
     pip install --no-deps '$PLUGIN' && \
     vllm serve $MODEL --served-model-name ${SERVED_NAME:-qwen3.8-27b} \
       --host 0.0.0.0 --port 8000 \
-      --max-model-len 81920 --max-num-batched-tokens 16384 --gpu-memory-utilization 0.8 \
+      --max-model-len 131072 --max-num-batched-tokens 16384 --gpu-memory-utilization 0.8 \
       --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 \
       --kv-cache-dtype fp8 --attention-backend flashinfer \
       --speculative-config '{\"method\": \"mtp\", \"num_speculative_tokens\": 4}' \

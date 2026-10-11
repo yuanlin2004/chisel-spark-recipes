@@ -19,7 +19,7 @@ defaults:
   tensor_parallel: 1
   pipeline_parallel: 1
   gpu_memory_utilization: 0.8
-  max_model_len: 81920
+  max_model_len: 131072
   max_num_batched_tokens: 16384
   kv_cache_dtype: fp8
   attention_backend: flashinfer

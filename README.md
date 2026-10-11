@@ -41,7 +41,7 @@ Either way the server is OpenAI-compatible on port 8000. The recipe is stock vLL
 ## Qwen3.8-27B: fp8-mtp4-draftvocab
 
 **What it is**
-- Weights: `Qwen/Qwen3.8-27B-FP8` (Qwen's official FP8 checkpoint), FP8 KV cache, FlashInfer attention, prefix caching.
+- Weights: `Qwen/Qwen3.8-27B-FP8` (Qwen's official FP8 checkpoint), FP8 KV cache, FlashInfer attention, prefix caching. Context up to 131,072 tokens (the results below were measured with an 81,920-token limit; the limit was raised later so spark-arena's 100k-token tests fit).
 - Speculative decoding with the model's built-in MTP head, 4 draft tokens per step.
 - **Reduced-vocabulary draft head** (chisel-draftvocab; [how it works](docs/reduced-vocabulary-draft-head.md)). The MTP head proposes draft tokens through the model's full 248,320 × 5,120 BF16 output layer, 2.5 GB read once per draft token. The plugin gives the draft steps a 0.5 GB head over the 50,858 tokens that cover about 98% of generated text, mapped back to the full vocabulary. The verify step still uses the full output layer, so the served tokens are exactly those the model would produce at that draft length; only the cost of drafting drops. Same-session measurement with 3 draft tokens: 59.9 → 49.0 ms per token, outputs identical on 100 of 100 prompts.
 
