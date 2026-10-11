@@ -1,0 +1,29 @@
+# humaneval for a chat model (Chisel, 2026-10-09): the problem is asked as a chat message, the answer's
+# first fenced code block is tested (utils.build_predictions_chat). lm-eval's humaneval_instruct relies
+# on an assistant prefill (gen_prefix) that the chat-completions API does not honour, so its stop
+# strings cut every answer before the function body. No stop strings here; 1,024 tokens.
+task: humaneval_chat
+dataset_path: openai/openai_humaneval
+unsafe_code: true
+output_type: generate_until
+test_split: test
+doc_to_text: "Complete the following Python function. Reply with the whole function in one ```python code block.\n```python\n{{ prompt }}\n```\n"
+doc_to_target: "{{test}}\ncheck({{entry_point}})"
+metric_list:
+  - metric: !function utils.pass_at_k
+    aggregation: mean
+    higher_is_better: true
+    k: [1]
+generation_kwargs:
+  until: []
+  max_gen_toks: 1024
+  do_sample: false
+repeats: 1
+num_fewshot: 0
+filter_list:
+  - name: "create_test"
+    filter:
+      - function: "custom"
+        filter_fn: !function utils.build_predictions_chat
+metadata:
+  version: 1.0

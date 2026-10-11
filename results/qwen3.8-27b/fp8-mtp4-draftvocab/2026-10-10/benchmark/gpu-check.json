@@ -1,0 +1,10 @@
+{
+  "samples": 1022,
+  "busy_samples": 1022,
+  "max_gap_s": 1.024,
+  "sm_clock_min_busy": 1989.0,
+  "sm_clock_median_busy": 1989.0,
+  "temp_max": 64.0,
+  "power_max_w": 53.3,
+  "problems": []
+}

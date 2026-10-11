@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chisel-draftvocab"
+version = "0.1.0"
+description = "Reduced-vocabulary draft head for speculative decoding in vLLM (a lossless speed-up for MTP and similar drafters)"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+
+[project.entry-points."vllm.general_plugins"]
+chisel_draftvocab = "chisel_draftvocab:register"
+
+[tool.setuptools]
+packages = ["chisel_draftvocab"]
+
+[tool.setuptools.package-data]
+chisel_draftvocab = ["data/*.txt"]

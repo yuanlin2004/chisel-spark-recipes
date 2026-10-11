@@ -1,0 +1,4 @@
+registries:
+  - name: chisel
+    description: Chisel's tuned recipes for DGX Spark, each published with its measured speed and quality against BF16
+    recipes: recipes

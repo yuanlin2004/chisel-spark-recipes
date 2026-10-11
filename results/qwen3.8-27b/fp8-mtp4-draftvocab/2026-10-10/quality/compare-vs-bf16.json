@@ -1,0 +1,87 @@
+{
+ "reference": "results/qwen3.8-27b/bf16-reference/2026-10-09/quality/scores.json",
+ "candidate": "results/qwen3.8-27b/fp8-mtp4-draftvocab/2026-10-10/quality/scores.json",
+ "margin_points": 1.0,
+ "tasks": {
+  "gsm8k": {
+   "n": 1319,
+   "reference_score": 90.06823351023503,
+   "candidate_score": 90.44730856709629,
+   "diff_points": 0.37907505686125853,
+   "ci95_points": [
+    -0.5725535510200165,
+    1.3307036647425337
+   ],
+   "non_inferior": true,
+   "length_ratio": 0.9955625602179474,
+   "flips_right_to_wrong": 18,
+   "flips_wrong_to_right": 23,
+   "recovery": 1.004208754208754,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  },
+  "ifeval": {
+   "n": 541,
+   "reference_score": 80.96118299445472,
+   "candidate_score": 82.99445471349352,
+   "diff_points": 2.033271719038817,
+   "ci95_points": [
+    -0.3384425746100064,
+    4.40498601268764
+   ],
+   "non_inferior": true,
+   "length_ratio": 0.9945382530748385,
+   "flips_right_to_wrong": 16,
+   "flips_wrong_to_right": 27,
+   "recovery": 1.0251141552511414,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  },
+  "humaneval_chat": {
+   "n": 164,
+   "reference_score": 95.1219512195122,
+   "candidate_score": 93.90243902439023,
+   "diff_points": -1.2195121951219512,
+   "ci95_points": [
+    -3.609756097560976,
+    1.1707317073170735
+   ],
+   "non_inferior": false,
+   "length_ratio": 1.007424355263461,
+   "flips_right_to_wrong": 3,
+   "flips_wrong_to_right": 1,
+   "recovery": 0.987179487179487,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  },
+  "longbench_narrativeqa": {
+   "n": 200,
+   "reference_score": 34.83234254995091,
+   "candidate_score": 35.350690250843364,
+   "diff_points": 0.518347700892458,
+   "ci95_points": [
+    -1.9814577325290543,
+    3.0181531343139705
+   ],
+   "non_inferior": false,
+   "length_ratio": 0.9795839004472099,
+   "recovery": 1.0148812185154967,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  }
+ },
+ "all_non_inferior": false,
+ "bar": {
+  "min_recovery": 0.97,
+  "length_range": [
+   0.9,
+   1.1
+  ],
+  "no_task_clearly_worse": true
+ },
+ "passes": true
+}

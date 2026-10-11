@@ -1,0 +1,53 @@
+{
+ "url": "http://localhost:8000",
+ "model": "qwen3.8-27b",
+ "tasks": "gsm8k,ifeval,humaneval_chat,longbench_narrativeqa",
+ "limit": 0,
+ "samples": "results/qwen3.8-27b/fp8-mtp4-draftvocab/2026-10-10/quality/samples",
+ "results": {
+  "gsm8k": {
+   "name": "gsm8k",
+   "alias": "gsm8k",
+   "sample_len": 1319,
+   "exact_match,strict-match": 0.8915845337376801,
+   "exact_match_stderr,strict-match": 0.008563852506627473,
+   "exact_match,flexible-extract": 0.9044730856709629,
+   "exact_match_stderr,flexible-extract": 0.008096605771155743
+  },
+  "ifeval": {
+   "name": "ifeval",
+   "alias": "ifeval",
+   "sample_len": 541,
+   "prompt_level_strict_acc,none": 0.8299445471349353,
+   "prompt_level_strict_acc_stderr,none": 0.016166758064800196,
+   "inst_level_strict_acc,none": 0.8800959232613909,
+   "inst_level_strict_acc_stderr,none": "N/A",
+   "prompt_level_loose_acc,none": 0.8613678373382625,
+   "prompt_level_loose_acc_stderr,none": 0.014870632638505448,
+   "inst_level_loose_acc,none": 0.9052757793764988,
+   "inst_level_loose_acc_stderr,none": "N/A"
+  },
+  "humaneval_chat": {
+   "name": "humaneval_chat",
+   "alias": "humaneval_chat",
+   "sample_len": 164,
+   "pass@1,create_test": 0.9390243902439024,
+   "pass@1_stderr,create_test": 0.018742292447890885
+  },
+  "longbench_narrativeqa": {
+   "name": "longbench_narrativeqa",
+   "alias": "longbench_narrativeqa",
+   "sample_len": 200,
+   "score,none": 0.35350690250843364,
+   "score_stderr,none": 0.024608246372594123,
+   "qa_f1_score,none": 0.35350690250843364,
+   "qa_f1_score_stderr,none": 0.024608246372594123
+  }
+ },
+ "versions": {
+  "gsm8k": 3.0,
+  "ifeval": 4.0,
+  "humaneval_chat": 1.0,
+  "longbench_narrativeqa": 5.0
+ }
+}
