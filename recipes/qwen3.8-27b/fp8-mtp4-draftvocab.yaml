@@ -28,8 +28,9 @@ defaults:
   speculative_config: '{"method": "mtp", "num_speculative_tokens": 4}'
   additional_config: '{"chisel_draft_vocab": "qwen3.8-27b"}'
 
-pre_exec:
-  - "pip install --no-deps https://github.com/yuanlin2004/chisel-spark-recipes/releases/download/qwen3.8-27b-v1/chisel_draftvocab-0.1.0-py3-none-any.whl"
+# Installs the draft-head plugin before the serve command (mods/chisel-draftvocab/run.sh).
+mods:
+  - chisel-draftvocab
 
 command: |
   vllm serve {model} \
