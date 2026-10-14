@@ -6,10 +6,10 @@ container: ghcr.io/spark-arena/dgx-vllm-eugr-nightly@sha256:b77010699ec42ab88b34
 
 metadata:
   description: >-
-    Chisel: Qwen3.8-27B NVFP4 (unsloth) with DFlash2 speculative decoding, 10 draft tokens, the
-    drafter's weights in FP8 and the linear-attention state cached in BF16; one DGX Spark.
-    Task scores within our bar against BF16 (gsm8k, ifeval, humaneval, NarrativeQA).
-    Results and method: github.com/yuanlin2004/chisel-spark-recipes
+    Chisel: Qwen3.8-27B NVFP4 (unsloth) with DFlash2 speculative decoding, 10 draft tokens,
+    Chisel's NVFP4 drafter (yuanlin2004/Qwen3.8-27B-Chisel-DFlash2-NVFP4-drafter) and the
+    linear-attention state cached in BF16; one DGX Spark. Task scores 99.3-103.9% of BF16
+    (gsm8k, ifeval, humaneval, NarrativeQA). Results and method: github.com/yuanlin2004/chisel-spark-recipes
 
 defaults:
   port: 8000
@@ -43,6 +43,6 @@ command: |
     --tool-call-parser {tool_call_parser} \
     --enable-auto-tool-choice \
     --generation-config auto \
-    --speculative-config '{"method":"dflash","model":"z-lab/Qwen3.8-27B-DFlash2","num_speculative_tokens":{num_speculative_tokens},"quantization":"fp8"}' \
+    --speculative-config '{"method":"dflash","model":"yuanlin2004/Qwen3.8-27B-Chisel-DFlash2-NVFP4-drafter","num_speculative_tokens":{num_speculative_tokens}}' \
     --default-chat-template-kwargs '{"enable_thinking":true,"reasoning_effort":"medium"}' \
     --mamba-ssm-cache-dtype {mamba_ssm_cache_dtype}
