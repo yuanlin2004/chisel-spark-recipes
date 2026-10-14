@@ -1,0 +1,143 @@
+{
+ "results": {
+  "ifeval": {
+   "name": "ifeval",
+   "alias": "ifeval",
+   "sample_len": 541,
+   "prompt_level_strict_acc,none": 0.8410351201478743,
+   "prompt_level_strict_acc_stderr,none": 0.015734783762341276,
+   "inst_level_strict_acc,none": 0.8884892086330936,
+   "inst_level_strict_acc_stderr,none": "N/A",
+   "prompt_level_loose_acc,none": 0.8761552680221811,
+   "prompt_level_loose_acc_stderr,none": 0.014175305492766679,
+   "inst_level_loose_acc,none": 0.9148681055155875,
+   "inst_level_loose_acc_stderr,none": "N/A"
+  }
+ },
+ "group_subtasks": {},
+ "configs": {
+  "ifeval": {
+   "task": "ifeval",
+   "dataset_path": "google/IFEval",
+   "test_split": "train",
+   "doc_to_text": "prompt",
+   "doc_to_target": 0,
+   "unsafe_code": false,
+   "process_results": "def process_results(doc, results):\n    inp = InputExample(\n        key=doc[\"key\"],\n        instruction_id_list=doc[\"instruction_id_list\"],\n        prompt=doc[\"prompt\"],\n        kwargs=doc[\"kwargs\"],\n    )\n    response = results[0]\n\n    out_strict = test_instruction_following_strict(inp, response)\n    out_loose = test_instruction_following_loose(inp, response)\n\n    return {\n        \"prompt_level_strict_acc\": out_strict.follow_all_instructions,\n        \"inst_level_strict_acc\": out_strict.follow_instruction_list,\n        \"prompt_level_loose_acc\": out_loose.follow_all_instructions,\n        \"inst_level_loose_acc\": out_loose.follow_instruction_list,\n    }\n",
+   "description": "",
+   "target_delimiter": " ",
+   "fewshot_delimiter": "\n\n",
+   "fewshot_config": {
+    "sampler": "default",
+    "split": null,
+    "process_docs": null,
+    "fewshot_indices": null,
+    "samples": null,
+    "doc_to_text": "prompt",
+    "doc_to_choice": null,
+    "doc_to_target": 0,
+    "gen_prefix": null,
+    "fewshot_delimiter": "\n\n",
+    "target_delimiter": " "
+   },
+   "num_fewshot": 0,
+   "metric_list": [
+    {
+     "metric": "prompt_level_strict_acc",
+     "aggregation": "mean",
+     "higher_is_better": true
+    },
+    {
+     "metric": "inst_level_strict_acc",
+     "aggregation": "def agg_inst_level_acc(items):\n    flat_items = [item for sublist in items for item in sublist]\n    inst_level_acc = sum(flat_items) / len(flat_items)\n    return inst_level_acc\n",
+     "higher_is_better": true
+    },
+    {
+     "metric": "prompt_level_loose_acc",
+     "aggregation": "mean",
+     "higher_is_better": true
+    },
+    {
+     "metric": "inst_level_loose_acc",
+     "aggregation": "def agg_inst_level_acc(items):\n    flat_items = [item for sublist in items for item in sublist]\n    inst_level_acc = sum(flat_items) / len(flat_items)\n    return inst_level_acc\n",
+     "higher_is_better": true
+    }
+   ],
+   "output_type": "generate_until",
+   "generation_kwargs": {
+    "until": [],
+    "do_sample": false,
+    "temperature": 0.0,
+    "max_gen_toks": 1280
+   },
+   "repeats": 1,
+   "should_decontaminate": false,
+   "metadata": {
+    "version": 4.0,
+    "model": "best-d4w-nothink",
+    "base_url": "http://localhost:8000/v1/chat/completions",
+    "num_concurrent": 16,
+    "timeout": 3600,
+    "config_source": "/home/yuan/git/my/chisel-cherry/.venv/lib/python3.12/site-packages/lm_eval/tasks/ifeval/ifeval.yaml"
+   }
+  }
+ },
+ "versions": {
+  "ifeval": 4.0
+ },
+ "n-shot": {
+  "ifeval": 0
+ },
+ "higher_is_better": {
+  "ifeval": {
+   "prompt_level_strict_acc": true,
+   "inst_level_strict_acc": true,
+   "prompt_level_loose_acc": true,
+   "inst_level_loose_acc": true
+  }
+ },
+ "n-samples": {
+  "ifeval": {
+   "original": 541,
+   "effective": 541
+  }
+ },
+ "config": {
+  "model": "local-chat-completions",
+  "model_args": {
+   "model": "best-d4w-nothink",
+   "base_url": "http://localhost:8000/v1/chat/completions",
+   "num_concurrent": 16,
+   "timeout": 3600
+  },
+  "batch_size": 1,
+  "batch_sizes": [],
+  "device": "cuda:0",
+  "use_cache": null,
+  "limit": null,
+  "bootstrap_iters": 100000,
+  "gen_kwargs": {},
+  "random_seed": 0,
+  "numpy_seed": 1234,
+  "torch_seed": 1234,
+  "fewshot_seed": 1234
+ },
+ "git_hash": "f470fe1",
+ "date": 1792011868.1962545,
+ "pretty_env_info": "PyTorch version: 2.13.0+cu130\nIs debug build: False\nCUDA used to build PyTorch: 13.0\nROCM used to build PyTorch: N/A\n\nOS: Ubuntu 24.04.5 LTS (aarch64)\nGCC version: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nClang version: Could not collect\nCMake version: version 3.28.3\nLibc version: glibc-2.39\n\nPython version: 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0] (64-bit runtime)\nPython platform: Linux-7.0.0-1019-nvidia-aarch64-with-glibc2.39\nIs CUDA available: True\nCUDA runtime version: 13.0.88\nCUDA_MODULE_LOADING set to: \nGPU models and configuration: GPU 0: NVIDIA GB10\nNvidia driver version: 580.178.04\ncuDNN version: Probably one of the following:\n/usr/lib/aarch64-linux-gnu/libcudnn.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_adv.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_cnn.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_engines_precompiled.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_engines_runtime_compiled.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_engines_tensor_ir.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_ext.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_graph.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_heuristic.so.9.26.0\n/usr/lib/aarch64-linux-gnu/libcudnn_ops.so.9.26.0\nIs XPU available: False\nHIP runtime version: N/A\nMIOpen runtime version: N/A\nIs XNNPACK available: False\nCaching allocator config: N/A\n\nCPU:\nArchitecture:                            aarch64\nCPU op-mode(s):                          64-bit\nByte Order:                              Little Endian\nCPU(s):                                  20\nOn-line CPU(s) list:                     0-19\nVendor ID:                               ARM\nModel name:                              Cortex-X925\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      10\nSocket(s):                               1\nStepping:                                r0p1\nFrequency boost:                         disabled\nCPU(s) scaling MHz:                      100%\nCPU max MHz:                             3900.0000\nCPU min MHz:                             1378.0000\nBogoMIPS:                                2000.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp sve2 sveaes svepmull svebitperm svesha3 svesm4 flagm2 frint svei8mm svebf16 i8mm bf16 dgh bti ecv afp wfxt\nModel name:                              Cortex-A725\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      10\nSocket(s):                               1\nStepping:                                r0p1\nCPU(s) scaling MHz:                      100%\nCPU max MHz:                             2808.0000\nCPU min MHz:                             338.0000\nBogoMIPS:                                2000.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp sve2 sveaes svepmull svebitperm svesha3 svesm4 flagm2 frint svei8mm svebf16 i8mm bf16 dgh bti ecv afp wfxt\nL1d cache:                               1.3 MiB (20 instances)\nL1i cache:                               1.3 MiB (20 instances)\nL2 cache:                                25 MiB (20 instances)\nL3 cache:                                24 MiB (2 instances)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-19\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; CSV2, BHB\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n\nVersions of relevant libraries:\n[pip3] nccl-extensions==0.1.0\n[pip3] nccl4py==0.6.0\n[pip3] numpy==2.3.5\n[pip3] nvidia-cublas==13.1.1.3\n[pip3] nvidia-cuda-cupti==13.0.85\n[pip3] nvidia-cuda-nvrtc==13.0.88\n[pip3] nvidia-cuda-runtime==13.0.96\n[pip3] nvidia-cudnn-cu13==9.20.0.48\n[pip3] nvidia-cudnn-frontend==1.30.0\n[pip3] nvidia-cufft==12.0.0.61\n[pip3] nvidia-curand==10.4.0.35\n[pip3] nvidia-cusolver==12.0.4.66\n[pip3] nvidia-cusparse==12.6.3.3\n[pip3] nvidia-cusparselt-cu13==0.8.1\n[pip3] nvidia-nccl-cu13==2.29.7\n[pip3] nvidia-nvjitlink==13.4.92\n[pip3] nvidia-nvtx==13.0.85\n[pip3] nvtx==0.2.15\n[pip3] tokenspeed-triton==3.8.10.post20260920\n[pip3] torch==2.13.0+cu130\n[pip3] torch_c_dlpack_ext==0.1.5\n[pip3] torchaudio==2.11.0+cu130\n[pip3] torchcodec==0.17.0+cu130\n[pip3] torchvision==0.28.0+cu130\n[pip3] triton==3.7.1\n[conda] Could not collect",
+ "transformers_version": "5.17.0",
+ "lm_eval_version": "0.4.13",
+ "upper_git_hash": null,
+ "task_hashes": {
+  "ifeval": "bdcf10fc42fb3b39fd60af9d347a998b5bcb0a6782900c760b7dcc67ef0109d7"
+ },
+ "model_source": "local-chat-completions",
+ "model_name": "best-d4w-nothink",
+ "model_name_sanitized": "best-d4w-nothink",
+ "system_instruction": null,
+ "system_instruction_sha": null,
+ "fewshot_as_multiturn": true,
+ "chat_template": "",
+ "chat_template_sha": null,
+ "total_evaluation_time_seconds": "956.9523015920131"
+}
