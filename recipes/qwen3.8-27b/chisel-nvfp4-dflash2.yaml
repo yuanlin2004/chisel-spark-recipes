@@ -9,7 +9,7 @@ metadata:
     Chisel: Qwen3.8-27B NVFP4 (unsloth) with DFlash2 speculative decoding, 10 draft tokens,
     Chisel's NVFP4 drafter (yuanlin2004/Qwen3.8-27B-Chisel-DFlash2-NVFP4-drafter) and the
     linear-attention state cached in BF16; one DGX Spark. Task scores 99.3-103.9% of BF16
-    (gsm8k, ifeval, humaneval, NarrativeQA). Results and method: github.com/yuanlin2004/chisel-spark-recipes
+    (gsm8k, ifeval, humaneval, NarrativeQA). Recipe, results and method: https://github.com/yuanlin2004/chisel-spark-recipes
 
 defaults:
   port: 8000
