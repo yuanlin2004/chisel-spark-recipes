@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="logo/chisel-dark.svg">
-    <img src="logo/chisel-light.svg" alt="Chisel logo" width="360">
+    <source media="(prefers-color-scheme: dark)" srcset="logo/chisel-recipe-dark.svg">
+    <img src="logo/chisel-recipe-light.svg" alt="Chisel Recipe logo" width="360">
   </picture>
 </p>
 

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Chisel Recipe — light background</title>
+  <desc id="desc">Chisel Recipe logo: faceted metallic C, orange chisel accent, Chisel wordmark and spaced uppercase RECIPE descriptor. All lettering is outlined vector artwork.</desc>
+  <defs>
+    <linearGradient id="top" gradientUnits="userSpaceOnUse" x1="705" y1="164" x2="790" y2="302">
+      <stop stop-color="#b6c0ca" /><stop offset=".52" stop-color="#e0e5e9" /><stop offset="1" stop-color="#f4f6f7" />
+    </linearGradient>
+    <linearGradient id="left" gradientUnits="userSpaceOnUse" x1="550" y1="258" x2="662" y2="526">
+      <stop stop-color="#627c91" /><stop offset=".52" stop-color="#3c566c" /><stop offset="1" stop-color="#243949" />
+    </linearGradient>
+    <linearGradient id="innerTop" gradientUnits="userSpaceOnUse" x1="844" y1="246" x2="792" y2="374">
+      <stop stop-color="#657989" /><stop offset=".37" stop-color="#343f48" /><stop offset=".7" stop-color="#70513b" /><stop offset="1" stop-color="#eb7e24" />
+    </linearGradient>
+    <linearGradient id="rightTop" gradientUnits="userSpaceOnUse" x1="892" y1="262" x2="914" y2="346">
+      <stop stop-color="#2c3e4d" /><stop offset=".65" stop-color="#435767" /><stop offset="1" stop-color="#8f6241" />
+    </linearGradient>
+    <linearGradient id="orange" gradientUnits="userSpaceOnUse" x1="674" y1="316" x2="762" y2="421">
+      <stop stop-color="#a9430c" /><stop offset=".45" stop-color="#ef8124" /><stop offset="1" stop-color="#ffd078" />
+    </linearGradient>
+    <linearGradient id="lowerTop" gradientUnits="userSpaceOnUse" x1="750" y1="451" x2="854" y2="597">
+      <stop stop-color="#ffe2a5" /><stop offset=".3" stop-color="#f2e8d8" /><stop offset=".56" stop-color="#d9e1e6" /><stop offset="1" stop-color="#8b9eae" />
+    </linearGradient>
+    <linearGradient id="lowerFront" gradientUnits="userSpaceOnUse" x1="613" y1="515" x2="801" y2="659">
+      <stop stop-color="#172630" /><stop offset=".48" stop-color="#29333e" /><stop offset="1" stop-color="#3d4d5c" />
+    </linearGradient>
+    <linearGradient id="lowerRight" gradientUnits="userSpaceOnUse" x1="786" y1="651" x2="966" y2="561">
+      <stop stop-color="#101c26" /><stop offset="1" stop-color="#293d4f" />
+    </linearGradient>
+    <linearGradient id="charcoal" gradientUnits="userSpaceOnUse" x1="768" y1="708" x2="768" y2="893">
+      <stop stop-color="#252c35" /><stop offset=".5" stop-color="#232a33" /><stop offset="1" stop-color="#272e37" />
+    </linearGradient>
+    <linearGradient id="accent" gradientUnits="userSpaceOnUse" x1="563" y1="744" x2="605" y2="755">
+      <stop stop-color="#ef8e2b" /><stop offset="1" stop-color="#e97719" />
+    </linearGradient>
+  </defs>
+  <path id="background" fill="#fff" d="M0 0H1536V1024H0Z" />
+  <g id="chisel-lockup" transform="matrix(.88 0 0 .88 92.16 46)"><g id="faceted-c">
+    <path id="upper-right-face" fill="url(#rightTop)" d="M982 211V280L873 345H805Z" />
+    <path id="upper-inner-face" fill="url(#innerTop)" d="M759 261L982 211L805 345L759 374Z" />
+    <path id="orange-inner-face" fill="url(#orange)" d="M663 318L759 261V433L663 484Z" />
+    <path id="left-face" fill="url(#left)" d="M545 253L663 318V484L545 562Z" />
+    <path id="top-face" fill="url(#top)" d="M545 253L805 109L982 211L759 261L663 318Z" />
+    <path id="lower-front-face" fill="url(#lowerFront)" d="M545 562L663 484L842 583L755 683Z" />
+    <path id="lower-right-face" fill="url(#lowerRight)" d="M755 683L842 583L988 564L763 688Z" />
+    <path id="lower-top-face" fill="url(#lowerTop)" d="M663 484L759 433L988 564L842 583Z" />
+    <g fill="none" stroke-linejoin="round" stroke-width="1.2">
+      <path stroke="#fff" stroke-opacity=".78" d="M545 253L663 318L759 261L982 211L805 345M663 318V484L759 433M663 484L842 583L988 564" />
+      <path stroke="#b7c9d7" stroke-opacity=".5" d="M545 562L663 484M842 583L755 683" />
+    </g>
+  </g>
+  <g id="wordmark" fill="url(#charcoal)" aria-label="Chisel">
+    <path id="letter-c" d="M547 709H459C408 709 367 750 367 801C367 852 406 893 458 893H540V853H460C432 853 411 831 411 801C411 772 432 749 461 749H525L547 727Z" />
+    <path id="chisel-accent" fill="url(#accent)" d="M563 708H567L605 725V764L563 789Z" />
+    <path id="letter-h" d="M563 788L604 764Q614 758 627 758H668C697 758 717 778 717 806V893H675V815Q675 794 656 794H625Q605 794 605 815V893H563Z" />
+    <path id="letter-i" d="M742 716H782V749H742ZM741 759H782V893H741Z" />
+    <path id="letter-s" d="M931 758H843C817 758 799 776 799 801C799 825 816 841 842 841H889Q900 841 900 850Q900 859 889 859H799V893H896C922 893 939 876 939 851C939 826 922 808 896 808H848Q838 808 838 800Q838 791 849 791H931Z" />
+    <path id="letter-e" fill-rule="evenodd" d="M1000 758H1062C1089 758 1107 777 1107 804V839H995V845Q995 859 1010 859H1098V893H1000C973 893 955 874 955 848V804C955 777 974 758 1000 758ZM995 810H1067V805Q1067 791 1053 791H1010Q995 791 995 806Z" />
+    <path id="letter-l" d="M1127 708H1168V893H1127Z" />
+  </g>
+</g><g id="recipe-wordmark" fill="#b96518" aria-label="Recipe"><path id="recipe-letter-1" d="M649.66015625 923.0V888.640625H664.26171875Q669.76953125 888.640625 672.265625 889.56640625Q674.76171875 890.4921875 676.26171875 892.859375Q677.76171875 895.2265625 677.76171875 898.2734375Q677.76171875 902.140625 675.48828125 904.66015625Q673.21484375 907.1796875 668.69140625 907.8359375Q670.94140625 909.1484375 672.40625 910.71875Q673.87109375 912.2890625 676.35546875 916.296875L680.55078125 923.0H672.25390625L667.23828125 915.5234375Q664.56640625 911.515625 663.58203125 910.47265625Q662.59765625 909.4296875 661.49609375 909.04296875Q660.39453125 908.65625 658.00390625 908.65625H656.59765625V923.0ZM656.59765625 903.171875H661.73046875Q666.72265625 903.171875 667.96484375 902.75Q669.20703125 902.328125 669.91015625 901.296875Q670.61328125 900.265625 670.61328125 898.71875Q670.61328125 896.984375 669.6875 895.91796875Q668.76171875 894.8515625 667.07421875 894.5703125Q666.23046875 894.453125 662.01171875 894.453125H656.59765625Z" /><path id="recipe-letter-2" d="M697.30078125 923.0V888.640625H722.77734375V894.453125H704.23828125V902.0703125H721.48828125V907.859375H704.23828125V917.2109375H723.43359375V923.0Z" /><path id="recipe-letter-3" d="M764.30078125 910.3671875 771.02734375 912.5Q769.48046875 918.125 765.8828125 920.85546875Q762.28515625 923.5859375 756.75390625 923.5859375Q749.91015625 923.5859375 745.50390625 918.91015625Q741.09765625 914.234375 741.09765625 906.125Q741.09765625 897.546875 745.52734375 892.80078125Q749.95703125 888.0546875 757.17578125 888.0546875Q763.48046875 888.0546875 767.41796875 891.78125Q769.76171875 893.984375 770.93359375 898.109375L764.06640625 899.75Q763.45703125 897.078125 761.5234375 895.53125Q759.58984375 893.984375 756.82421875 893.984375Q753.00390625 893.984375 750.625 896.7265625Q748.24609375 899.46875 748.24609375 905.609375Q748.24609375 912.125 750.58984375 914.890625Q752.93359375 917.65625 756.68359375 917.65625Q759.44921875 917.65625 761.44140625 915.8984375Q763.43359375 914.140625 764.30078125 910.3671875Z" /><path id="recipe-letter-4" d="M789.76953125 923.0V888.640625H796.70703125V923.0Z" /><path id="recipe-letter-5" d="M816.31640625 923.0V888.640625H827.44921875Q833.77734375 888.640625 835.69921875 889.15625Q838.65234375 889.9296875 840.64453125 892.51953125Q842.63671875 895.109375 842.63671875 899.2109375Q842.63671875 902.375 841.48828125 904.53125Q840.33984375 906.6875 838.5703125 907.91796875Q836.80078125 909.1484375 834.97265625 909.546875Q832.48828125 910.0390625 827.77734375 910.0390625H823.25390625V923.0ZM823.25390625 894.453125V904.203125H827.05078125Q831.15234375 904.203125 832.53515625 903.6640625Q833.91796875 903.125 834.703125 901.9765625Q835.48828125 900.828125 835.48828125 899.3046875Q835.48828125 897.4296875 834.38671875 896.2109375Q833.28515625 894.9921875 831.59765625 894.6875Q830.35546875 894.453125 826.60546875 894.453125Z" /><path id="recipe-letter-6" d="M861.33203125 923.0V888.640625H886.80859375V894.453125H868.26953125V902.0703125H885.51953125V907.859375H868.26953125V917.2109375H887.46484375V923.0Z" /></g></svg>
