@@ -18,12 +18,17 @@ from vllm.triton_utils import tl, triton
 
 @triton.jit
 def _verify_kernel(A_log, a, b, dt_bias, q, k, v, o, h0, cu_seqlens, state_indices, num_accepted_tokens,
-                   save_k, save_v, save_g, save_beta, scale, beta_sp, threshold,
+                   save_k, save_v, save_g, save_beta, save_idx, save_prev, scale, beta_sp, threshold,
                    H: tl.constexpr, HV: tl.constexpr, K: tl.constexpr, V: tl.constexpr, BK: tl.constexpr,
-                   BV: tl.constexpr, S: tl.constexpr, stride_state: tl.constexpr, stride_idx: tl.constexpr,
-                   USE_QK_L2NORM: tl.constexpr, STORE_PER_TOKEN: tl.constexpr = False):
+                   BV: tl.constexpr, S: tl.constexpr, BS: tl.constexpr, stride_state: tl.constexpr,
+                   stride_idx: tl.constexpr, USE_QK_L2NORM: tl.constexpr, STORE_PER_TOKEN: tl.constexpr = False):
     i_v, i_nh = tl.program_id(1), tl.program_id(2)
     i_n, i_hv = i_nh // HV, i_nh % HV
+    if i_v == 0 and i_hv == 0:  # keep the indices and start position this call used, for materialize
+        o_s = tl.arange(0, BS)
+        tl.store(save_idx + i_n * S + o_s, tl.load(state_indices + i_n * stride_idx + o_s, mask=o_s < S, other=0),
+                 mask=o_s < S)
+        tl.store(save_prev + i_n, tl.load(num_accepted_tokens + i_n))
     i_h = i_hv // (HV // H)
     bos = tl.load(cu_seqlens + i_n).to(tl.int64)
     T = tl.load(cu_seqlens + i_n + 1).to(tl.int64) - bos
@@ -107,6 +112,77 @@ def _materialize_kernel(h0, state_indices, prev_accepted, new_accepted, save_k, 
     tl.store(h0 + dst * stride_state + off, b_h.to(h0.dtype.element_ty), mask=mask_h)
 
 
+@triton.jit
+def _materialize_layers_kernel(h0, slots, idx, prev, new_accepted, save_k, save_v, save_g, save_beta,
+                               HV: tl.constexpr, K: tl.constexpr, V: tl.constexpr, BK: tl.constexpr,
+                               BV: tl.constexpr, S: tl.constexpr, CAP: tl.constexpr, stride_state: tl.constexpr):
+    """_materialize_kernel for many layers in one launch: program_id(0) picks the layer's slot in a ReplayStack."""
+    l = tl.load(slots + tl.program_id(0)).to(tl.int64)
+    i_v, i_nh = tl.program_id(1), tl.program_id(2)
+    i_n, i_hv = i_nh // HV, i_nh % HV
+    o_k = tl.arange(0, BK)
+    o_v = i_v * BV + tl.arange(0, BV)
+    mask_k = o_k < K
+    mask_v = o_v < V
+    mask_h = mask_v[:, None] & mask_k[None, :]
+    n_acc = tl.load(new_accepted + i_n).to(tl.int64)
+    if n_acc <= 0:
+        return
+    row = idx + (l * CAP + i_n) * S
+    src = tl.load(row + tl.load(prev + l * CAP + i_n).to(tl.int64) - 1).to(tl.int64)
+    dst = tl.load(row + n_acc - 1).to(tl.int64)
+    if src <= 0 or dst <= 0:
+        return
+    off = i_hv * V * K + o_v[:, None] * K + o_k[None, :]
+    b_h = tl.load(h0 + src * stride_state + off, mask=mask_h, other=0).to(tl.float32)
+    base = l * CAP * S + i_n * S
+    for i_t in range(0, n_acc):
+        slot = base + i_t
+        b_k = tl.load(save_k + (slot * HV + i_hv) * K + o_k, mask=mask_k, other=0)
+        b_v = tl.load(save_v + (slot * HV + i_hv) * V + o_v, mask=mask_v, other=0)
+        b_g = tl.load(save_g + slot * HV + i_hv)
+        b_beta = tl.load(save_beta + slot * HV + i_hv)
+        b_h *= tl.exp(b_g)
+        b_v -= tl.sum(b_h * b_k[None, :], 1)
+        b_v *= b_beta
+        b_h += b_v[:, None] * b_k[None, :]
+    tl.store(h0 + dst * stride_state + off, b_h.to(h0.dtype.element_ty), mask=mask_h)
+
+
+class ReplayStack:
+    """Save buffers for up to L layers in single tensors, so one launch can materialize every layer."""
+
+    def __init__(self, L, max_reqs, S, HV, K, V, device):
+        self.L, self.cap, self.S, self.HV, self.K, self.V = L, max_reqs, S, HV, K, V
+        self.k = torch.empty(L, max_reqs * S, HV, K, device=device, dtype=torch.float32)
+        self.v = torch.empty(L, max_reqs * S, HV, V, device=device, dtype=torch.float32)
+        self.g = torch.empty(L, max_reqs * S, HV, device=device, dtype=torch.float32)
+        self.beta = torch.empty(L, max_reqs * S, HV, device=device, dtype=torch.float32)
+        self.idx = torch.zeros(L, max_reqs, S, device=device, dtype=torch.int32)
+        self.prev = torch.ones(L, max_reqs, device=device, dtype=torch.int32)
+        self.used = 0
+
+    def take(self):
+        assert self.used < self.L, "more GDN layers than the replay stack holds"
+        b = ReplayBuffers.__new__(ReplayBuffers)
+        i = self.used
+        self.used += 1
+        b.S, b.slot, b.start = self.S, i, None
+        b.k, b.v, b.g, b.beta, b.idx, b.prev = (self.k[i], self.v[i], self.g[i], self.beta[i], self.idx[i],
+                                                 self.prev[i])
+        return b
+
+
+def materialize_layers(state, stack, slots, n, new_accepted, BV=32, num_warps=4):
+    """Materialize every layer in `slots` (int32 tensor of stack slots, all on this state tensor) for the first n
+    requests, in one launch."""
+    HV, V, K = state.shape[1], state.shape[2], state.shape[3]
+    _materialize_layers_kernel[(slots.numel(), triton.cdiv(V, BV), n * HV)](
+        state, slots, stack.idx, stack.prev, new_accepted, stack.k, stack.v, stack.g, stack.beta,
+        HV=HV, K=K, V=V, BK=triton.next_power_of_2(K), BV=BV, S=stack.S, CAP=stack.cap,
+        stride_state=state.stride(0), num_warps=num_warps, num_stages=3)
+
+
 class ReplayBuffers:
     """Per-layer save buffers for up to max_reqs requests of S tokens (fp32; about 0.8 MB per request per layer)."""
 
@@ -124,20 +200,22 @@ class ReplayBuffers:
 
 
 def verify_no_store(A_log, a, b, dt_bias, q, k, v, state, cu_seqlens, state_indices, num_accepted_tokens, bufs,
-                    scale=None, beta=1.0, threshold=20.0, use_qk_l2norm=True, store_per_token=False):
+                    scale=None, beta=1.0, threshold=20.0, use_qk_l2norm=True, store_per_token=False, BV=32,
+                    num_warps=4):
     """q, k: [T, H, K]; v: [T, HV, V]; a, b: [T, HV]; state: [slots, HV, V, K]. Returns o: [T, HV, V]."""
     T, H, K = k.shape
     HV, V = v.shape[1], v.shape[2]
     N = cu_seqlens.numel() - 1
-    BK, BV = triton.next_power_of_2(K), min(triton.next_power_of_2(V), 32)
+    BK, BV = triton.next_power_of_2(K), min(triton.next_power_of_2(V), BV)
     o = torch.empty_like(v)
     scale = K ** -0.5 if scale is None else scale
     _verify_kernel[(1, triton.cdiv(V, BV), N * HV)](
         A_log, a.contiguous(), b.contiguous(), dt_bias, q.contiguous(), k.contiguous(), v.contiguous(), o, state,
-        cu_seqlens, state_indices, num_accepted_tokens, bufs.k, bufs.v, bufs.g, bufs.beta, scale, beta, threshold,
-        H=H, HV=HV, K=K, V=V, BK=BK, BV=BV, S=bufs.S, stride_state=state.stride(0),
+        cu_seqlens, state_indices, num_accepted_tokens, bufs.k, bufs.v, bufs.g, bufs.beta, bufs.idx, bufs.prev, scale,
+        beta, threshold, H=H, HV=HV, K=K, V=V, BK=BK, BV=BV, S=bufs.S, BS=triton.next_power_of_2(bufs.S),
+        stride_state=state.stride(0),
         stride_idx=state_indices.stride(0), USE_QK_L2NORM=use_qk_l2norm, STORE_PER_TOKEN=store_per_token,
-        num_warps=4, num_stages=3)
+        num_warps=num_warps, num_stages=3)
     return o
 
 
@@ -186,6 +264,21 @@ def test(N=2, T=11, H=16, HV=48, K=128, V=128, state_dtype=torch.bfloat16, seed=
             d = idx[n, acc - 1].item()
             if not torch.equal(st[d], ref_state[d]):
                 worst = max(worst, (st[d].float() - ref_state[d].float()).abs().max().item() or 1e-30)
+    # the same through a ReplayStack slot and the all-layer kernel
+    stack = ReplayStack(3, N, T, HV, K, V, dev)
+    stack.take()
+    sb = stack.take()
+    st2 = base.clone()
+    o2 = verify_no_store(A_log, a, b, dt_bias, q, k, v, st2, cu, idx, prev, sb)
+    ok_out = ok_out and torch.equal(o2, o_new)
+    slots = torch.tensor([sb.slot], device=dev, dtype=torch.int32)
+    for acc in range(1, T + 1):
+        st = st2.clone()
+        materialize_layers(st, stack, slots, N, torch.full((N,), acc, device=dev, dtype=torch.int32))
+        for n in range(N):
+            d = idx[n, acc - 1].item()
+            if not torch.equal(st[d], ref_state[d]):
+                worst = max(worst, (st[d].float() - ref_state[d].float()).abs().max().item() or 1e-30)
     print(f"outputs identical: {ok_out}; materialized states identical for all accepted counts: {worst == 0}"
           + ("" if worst == 0 else f" (max abs diff {worst})"))
     return ok_out and worst == 0
@@ -203,7 +296,8 @@ if __name__ == "__main__":
 # vLLM's own mamba postprocess, materialize() writes each spec request's accepted state into column
 # num_accepted - 1 of its spec state indices, where the next step and the align-mode copies read it.
 
-_state = {"enabled": None, "cap": 16, "debug": "", "bufs": {}, "layers": {}, "step": None, "step_n": 0}
+_state = {"enabled": None, "cap": 16, "debug": "", "bufs": {}, "layers": {}, "step": None, "step_n": 0,
+          "n_layers": 64, "stack": None, "groups": None}
 
 
 def _enabled(vllm_config):
@@ -265,8 +359,10 @@ def install():
         bufs = _state["bufs"].get(key)
         S = idx.shape[1]
         HV, V, K = state.shape[1], state.shape[2], state.shape[3]
-        if bufs is None:  # one fixed buffer per layer, allocated once (CUDA graphs keep its address)
-            bufs = ReplayBuffers(_state["cap"], S, HV, K, V, state.device)
+        if bufs is None:  # one fixed slot per layer in one stack, allocated once (CUDA graphs keep its address)
+            if _state.get("stack") is None:
+                _state["stack"] = ReplayStack(_state["n_layers"], _state["cap"], S, HV, K, V, state.device)
+            bufs = _state["stack"].take()
             _state["bufs"][key] = bufs
         assert bufs.S == S, "spec-decode width changed"
         if _state["debug"] == "check":
@@ -278,10 +374,8 @@ def install():
         o = verify_no_store(kwargs["A_log"], kwargs["a"], kwargs["b"], kwargs["dt_bias"], q.squeeze(0), k.squeeze(0),
                             v.squeeze(0), state, cu, idx, kwargs["num_accepted_tokens"], bufs,
                             scale=kwargs.get("scale"), use_qk_l2norm=kwargs.get("use_qk_l2norm_in_kernel", True),
-                            store_per_token=_state["debug"] in ("store", "both", "check"))
-        N = idx.shape[0]
-        bufs.idx[:N].copy_(idx)
-        bufs.prev[:N].copy_(kwargs["num_accepted_tokens"][:N])
+                            store_per_token=_state["debug"] in ("store", "both", "check"),
+                            BV=64)  # bit-identical to BV=32 at 4 warps (exact-replay-configs.log), faster
         _state["layers"][key] = (state, bufs)
         _state.setdefault("first_key", key)
         if _state["debug"] == "trace" and _state.get("trace_n", 0) < 40 and key == _state["first_key"]:
@@ -302,6 +396,11 @@ def install():
             _state["enabled"], _state["cap"] = _enabled(vllm_config)
             extra = getattr(vllm_config, "additional_config", None) or {}
             _state["debug"] = str(extra.get("chisel_gdn_replay_debug", "")) if isinstance(extra, dict) else ""
+            try:
+                types = getattr(vllm_config.model_config.hf_text_config, "layer_types", None) or []
+                _state["n_layers"] = sum(t == "linear_attention" for t in types) or 64
+            except Exception:
+                _state["n_layers"] = 64
             if _state["enabled"]:
                 log.warning("chisel gdn replay: spec-decode GDN states are replayed, not stored per token")
 
@@ -341,8 +440,15 @@ def install():
             if _state["debug"] == "check":
                 _check(_state, n_spec, new, log)
             else:
-                for state, bufs in _state["layers"].values():
-                    materialize(state, bufs.idx[:n_spec], bufs.prev[:n_spec], new, bufs)
+                groups = _state.get("groups")
+                if groups is None or _state.get("groups_n") != len(_state["layers"]):
+                    by = {}
+                    for state, bufs in _state["layers"].values():
+                        by.setdefault(state.data_ptr(), (state, []))[1].append(bufs.slot)
+                    groups = [(st, torch.tensor(sl, device=st.device, dtype=torch.int32)) for st, sl in by.values()]
+                    _state["groups"], _state["groups_n"] = groups, len(_state["layers"])
+                for state, slots in groups:
+                    materialize_layers(state, _state["stack"], slots, new.numel(), new)
         return orig_post(self, idx_mapping, num_sampled, *a, **kw)
 
     cls.__init__ = __init__
@@ -359,6 +465,7 @@ def install():
             out = orig_init_kv(self, *a, **kw)
             _state["layers"].clear()
             _state["bufs"].clear()
+            _state["stack"], _state["groups"] = None, None
             _state.pop("first_key", None)
             _state["step"] = None
             return out
