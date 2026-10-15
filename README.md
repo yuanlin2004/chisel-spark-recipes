@@ -20,7 +20,7 @@ For comparison, on the same box with the same benchmark, stock vLLM serves Qwen3
 
 Every row links to its recipe. Every result has a folder under [`results/`](results/) with the raw benchmark and quality files, the versions used, and how to reproduce them. A published recipe and its results never change; a better result is a new recipe and a new row.
 
-On [spark-arena](https://spark-arena.com), whose leaderboard ranks by 128-token generation at 16k context with 2 users: fp8-mtp4-draftvocab is listed as [sub1791836777805](https://spark-arena.com/benchmark/sub1791836777805) (27.2 tok/s) and [sub1791769550627](https://spark-arena.com/benchmark/sub1791769550627) (28.3 tok/s), the fastest single-Spark FP8 entries for Qwen3.8-27B. chisel-nvfp4-dflash2 measured 51.6 tok/s on that test run locally; its arena run is pending.
+On [spark-arena](https://spark-arena.com), whose leaderboard ranks by 128-token generation at 16k context with 2 users: chisel-nvfp4-dflash2 is [sub1792022796220](https://spark-arena.com/benchmark/sub1792022796220), 51.6 tok/s on that test (1 user: 39.1 tok/s and 2,132 tok/s prefill with no context; 24.2 tok/s at 100k context), awaiting the maintainers' approval. fp8-mtp4-draftvocab is listed as [sub1791769550627](https://spark-arena.com/benchmark/sub1791769550627) (28.3 tok/s) and [sub1791836777805](https://spark-arena.com/benchmark/sub1791836777805) (27.2 tok/s), the fastest single-Spark FP8 entries for Qwen3.8-27B.
 
 Discussion: [NVIDIA Developer Forums thread](https://forums.developer.nvidia.com/t/qwen3-8-27b-fp8-on-one-spark-23-1-tok-s-single-user-quality-measured-against-bf16-plus-a-question-about-dflash2-on-long-contexts/385526).
 
