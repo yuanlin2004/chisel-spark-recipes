@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
-  <title id="title">Chisel Recipe — light background</title>
+  <title id="title">Chisel Recipe — transparent, light variant</title>
   <desc id="desc">Chisel Recipe logo: faceted metallic C, orange chisel accent, Chisel wordmark and spaced uppercase RECIPE descriptor. All lettering is outlined vector artwork.</desc>
   <defs>
     <linearGradient id="top" gradientUnits="userSpaceOnUse" x1="705" y1="164" x2="790" y2="302">
@@ -34,7 +34,6 @@
       <stop stop-color="#ef8e2b" /><stop offset="1" stop-color="#e97719" />
     </linearGradient>
   </defs>
-  <path id="background" fill="#fff" d="M0 0H1536V1024H0Z" />
   <g id="chisel-lockup" transform="matrix(.88 0 0 .88 92.16 46)"><g id="faceted-c">
     <path id="upper-right-face" fill="url(#rightTop)" d="M982 211V280L873 345H805Z" />
     <path id="upper-inner-face" fill="url(#innerTop)" d="M759 261L982 211L805 345L759 374Z" />
