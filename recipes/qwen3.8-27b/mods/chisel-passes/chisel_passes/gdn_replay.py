@@ -336,7 +336,7 @@ def _check(st, n, new, log):
 
 def install():
     from vllm.logger import init_logger
-    log = init_logger("vllm.chisel_gdnreplay")
+    log = init_logger("vllm.chisel_passes.gdn_replay")
     try:
         from vllm.model_executor.layers.mamba.gdn import qwen_gdn_linear_attn as gdn_mod
         from vllm.v1.worker.gpu.model_states import mamba_hybrid as mh

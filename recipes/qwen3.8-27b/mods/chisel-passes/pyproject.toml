@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chisel-passes"
+version = "0.1.0"
+description = "Chisel: passes for speculative decoding in vLLM (GDN state replay, reduced draft vocabulary)"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+
+[project.entry-points."vllm.general_plugins"]
+chisel_passes = "chisel_passes:register"
+
+[tool.setuptools]
+packages = ["chisel_passes"]
+
+[tool.setuptools.package-data]
+chisel_passes = ["data/*.txt"]

@@ -4,16 +4,16 @@ runtime: vllm
 # The spark-arena vLLM nightly image (vLLM 0.31.1rc1.dev380), pinned to the digest it was measured on.
 container: ghcr.io/spark-arena/dgx-vllm-eugr-nightly@sha256:b77010699ec42ab88b3409f4dd101f2288dfd8895e2778e5bb737e03a20953f0
 
-# Installs Chisel's GDN state replay plugin before the serve command (mods/chisel-gdnreplay/run.sh).
+# Installs Chisel's passes plugin before the serve command (mods/chisel-passes/run.sh).
 mods:
-  - chisel-gdnreplay
+  - chisel-passes
 
 metadata:
   description: >-
     Chisel. Fast inference, carved for you. Qwen3.8-27B NVFP4 (unsloth) with DFlash2 speculative
     decoding, 10 draft tokens, Chisel's NVFP4 drafter, the linear-attention state cached in BF16 and
-    Chisel's GDN state replay (lossless). One DGX Spark. Recipe, results and method:
-    https://github.com/yuanlin2004/chisel-spark-recipes
+    Chisel's GDN state replay and reduced draft vocabulary (both lossless). One DGX Spark. Recipe, results and method:
+    https://github.com/yuanlin2004/chisel-spark-recipes/blob/main/recipes/qwen3.8-27b/chisel-nvfp4-dflash2-replay.md
 
 defaults:
   port: 8000
@@ -29,6 +29,7 @@ defaults:
   num_speculative_tokens: 10
   mamba_ssm_cache_dtype: bfloat16
   gdn_replay_capacity: 8
+  draft_vocab: qwen3.8-27b-100k
 
 command: |
   vllm serve {model} \
@@ -51,4 +52,4 @@ command: |
     --speculative-config '{"method":"dflash","model":"yuanlin2004/Qwen3.8-27B-Chisel-DFlash2-NVFP4-drafter","num_speculative_tokens":{num_speculative_tokens}}' \
     --default-chat-template-kwargs '{"enable_thinking":true,"reasoning_effort":"medium"}' \
     --mamba-ssm-cache-dtype {mamba_ssm_cache_dtype} \
-    --additional-config '{"chisel_gdn_replay": {gdn_replay_capacity}}'
+    --additional-config '{"chisel_gdn_replay": {gdn_replay_capacity}, "chisel_draft_vocab": "{draft_vocab}", "chisel_draft_vocab_fp8": true}'
