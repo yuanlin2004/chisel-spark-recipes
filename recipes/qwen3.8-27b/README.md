@@ -2,6 +2,7 @@
 
 | Recipe | Decode, one user | Time to first token | Quality vs BF16 | Runtime |
 |---|---|---|---|---|
+| [chisel-nvfp4-dflash2-replay](chisel-nvfp4-dflash2-replay.md) | **65.1 tok/s** (15.35 ms/token median, 28.3–29.1 ms p90) | 241 ms median | 99.3–101.2% on 4 tasks | vLLM nightly (0.31.1rc1.dev380) + chisel-passes |
 | [chisel-nvfp4-dflash2](chisel-nvfp4-dflash2.md) | **60.5 tok/s** (16.5 ms/token median, 31.0 ms p90) | 250 ms median | 99.3–103.9% on 4 tasks | vLLM nightly (0.31.1rc1.dev380), no plugin |
 | [fp8-mtp4-draftvocab](fp8-mtp4-draftvocab.md) | **23.1 tok/s** (43.5 ms/token median, 57.8 ms p90) | 316 ms median | 98.7–102.5% on 4 tasks | vLLM 0.31.0 + chisel-draftvocab |
 

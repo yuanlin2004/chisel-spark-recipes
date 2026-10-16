@@ -15,7 +15,7 @@ These recipes come from [Chisel](https://github.com/yuanlin2004/chisel), which a
 
 | Model | Best recipe | Decode, one user | Quality vs BF16 | Recipes |
 |---|---|---|---|---|
-| Qwen3.8-27B | [chisel-nvfp4-dflash2](recipes/qwen3.8-27b/chisel-nvfp4-dflash2.md) | **60.5 tok/s** (16.5 ms/token median) | 99.3–103.9% on 4 tasks | [2 recipes](recipes/qwen3.8-27b/README.md) |
+| Qwen3.8-27B | [chisel-nvfp4-dflash2-replay](recipes/qwen3.8-27b/chisel-nvfp4-dflash2-replay.md) | **65.1 tok/s** (15.35 ms/token median) | 99.3–101.2% on 4 tasks | [3 recipes](recipes/qwen3.8-27b/README.md) |
 
 Each recipe has its own page with its speed, quality, spark-arena entries and run command, and a folder under [`results/`](results/) with the raw benchmark and quality files, the versions used, and how to reproduce them. A published recipe and its results never change; a better result is a new recipe.
 
@@ -36,6 +36,7 @@ The server is OpenAI-compatible on port 8000.
 recipes/<model>/README.md            the model's recipes, with a summary table
 recipes/<model>/<recipe>.md          one recipe: what it is, speed, quality, spark-arena entries, how to run it
 recipes/<model>/<recipe>.yaml        sparkrun recipe (and <recipe>.docker.sh, the same without sparkrun)
+recipes/<model>/mods/                files sparkrun installs into the container at start (plugins a recipe uses)
 plugin/                              chisel-draftvocab, a vLLM general plugin; passes are off unless a recipe turns them on
 results/<model>/<recipe>/<date>/     benchmark/, quality/, outputs/, ENVIRONMENT.md, METHOD.md
 results/<model>/bf16-reference/      BF16 task scores every recipe for that model is compared against

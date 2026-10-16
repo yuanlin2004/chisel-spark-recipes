@@ -1,0 +1,87 @@
+{
+ "reference": "runs/qwen38-27b-50ms-2026-10-09/quality-chat-bf16.json",
+ "candidate": "runs/qwen38-27b-arena-2026-10-13/quality-chat-replay1-dv8.json",
+ "margin_points": 1.0,
+ "tasks": {
+  "gsm8k": {
+   "n": 1319,
+   "reference_score": 90.06823351023503,
+   "candidate_score": 89.46171341925702,
+   "diff_points": -0.6065200909780136,
+   "ci95_points": [
+    -1.8137451343135735,
+    0.6007049523575464
+   ],
+   "non_inferior": false,
+   "length_ratio": 1.0086485431409682,
+   "flips_right_to_wrong": 37,
+   "flips_wrong_to_right": 29,
+   "recovery": 0.9932659932659933,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  },
+  "ifeval": {
+   "n": 541,
+   "reference_score": 80.96118299445472,
+   "candidate_score": 81.88539741219964,
+   "diff_points": 0.9242144177449169,
+   "ci95_points": [
+    -1.560611007417151,
+    3.409039842906985
+   ],
+   "non_inferior": false,
+   "length_ratio": 1.001384198457369,
+   "flips_right_to_wrong": 21,
+   "flips_wrong_to_right": 26,
+   "recovery": 1.0114155251141552,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  },
+  "humaneval_chat": {
+   "n": 164,
+   "reference_score": 95.1219512195122,
+   "candidate_score": 94.51219512195121,
+   "diff_points": -0.6097560975609756,
+   "ci95_points": [
+    -2.6839968720184646,
+    1.4644846768965132
+   ],
+   "non_inferior": false,
+   "length_ratio": 1.0066489055410106,
+   "flips_right_to_wrong": 2,
+   "flips_wrong_to_right": 1,
+   "recovery": 0.9935897435897434,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  },
+  "longbench_narrativeqa": {
+   "n": 200,
+   "reference_score": 34.83234254995091,
+   "candidate_score": 35.235443073646884,
+   "diff_points": 0.403100523695978,
+   "ci95_points": [
+    -1.6421295670363527,
+    2.4483306144283086
+   ],
+   "non_inferior": false,
+   "length_ratio": 0.9618899475014583,
+   "recovery": 1.011572593003698,
+   "clearly_worse": false,
+   "length_ok": true,
+   "passes": true
+  }
+ },
+ "all_non_inferior": false,
+ "bar": {
+  "min_recovery": 0.97,
+  "length_range": [
+   0.9,
+   1.1
+  ],
+  "no_task_clearly_worse": true
+ },
+ "passes": true
+}

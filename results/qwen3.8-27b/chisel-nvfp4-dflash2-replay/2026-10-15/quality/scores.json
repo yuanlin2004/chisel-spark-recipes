@@ -1,0 +1,53 @@
+{
+ "url": "http://localhost:8000",
+ "model": "best-d4w-replay1-dv8-nothink",
+ "tasks": "gsm8k,longbench_narrativeqa,ifeval,humaneval_chat",
+ "limit": 0,
+ "samples": "runs/qwen38-27b-arena-2026-10-13/quality-chat-replay1-dv8-samples",
+ "results": {
+  "gsm8k": {
+   "name": "gsm8k",
+   "alias": "gsm8k",
+   "sample_len": 1319,
+   "exact_match,strict-match": 0.8802122820318423,
+   "exact_match_stderr,strict-match": 0.008944213403553085,
+   "exact_match,flexible-extract": 0.8946171341925702,
+   "exact_match_stderr,flexible-extract": 0.008457575884041772
+  },
+  "longbench_narrativeqa": {
+   "name": "longbench_narrativeqa",
+   "alias": "longbench_narrativeqa",
+   "sample_len": 200,
+   "score,none": 0.3523544307364688,
+   "score_stderr,none": 0.024757542330946587,
+   "qa_f1_score,none": 0.3523544307364688,
+   "qa_f1_score_stderr,none": 0.024757542330946587
+  },
+  "ifeval": {
+   "name": "ifeval",
+   "alias": "ifeval",
+   "sample_len": 541,
+   "prompt_level_strict_acc,none": 0.8188539741219963,
+   "prompt_level_strict_acc_stderr,none": 0.01657374894371447,
+   "inst_level_strict_acc,none": 0.8729016786570744,
+   "inst_level_strict_acc_stderr,none": "N/A",
+   "prompt_level_loose_acc,none": 0.8521256931608133,
+   "prompt_level_loose_acc_stderr,none": 0.01527570670099573,
+   "inst_level_loose_acc,none": 0.8992805755395683,
+   "inst_level_loose_acc_stderr,none": "N/A"
+  },
+  "humaneval_chat": {
+   "name": "humaneval_chat",
+   "alias": "humaneval_chat",
+   "sample_len": 164,
+   "pass@1,create_test": 0.9451219512195121,
+   "pass@1_stderr,create_test": 0.01783813529529063
+  }
+ },
+ "versions": {
+  "gsm8k": 3.0,
+  "longbench_narrativeqa": 5.0,
+  "ifeval": 4.0,
+  "humaneval_chat": 1.0
+ }
+}
