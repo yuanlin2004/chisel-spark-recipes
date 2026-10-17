@@ -32,6 +32,6 @@ sparkrun run @chisel/chisel-nvfp4-dflash2 --tp 1 --hosts localhost
 
 The recipe ([chisel-nvfp4-dflash2.yaml](chisel-nvfp4-dflash2.yaml)) runs the spark-arena vLLM nightly image as is, pinned by digest. The server is OpenAI-compatible on port 8000.
 
-**On spark-arena**: [sub1792022796220](https://spark-arena.com/benchmark/sub1792022796220), 51.6 tok/s on the leaderboard's ranking test (128-token generation at 16k context, 2 users); 1 user: 39.1 tok/s and 2,132 tok/s prefill with no context, 24.2 tok/s at 100k context. Awaiting the maintainers' approval.
+**On spark-arena**: [sub1792022796220](https://spark-arena.com/benchmark/sub1792022796220), 51.6 tok/s on the leaderboard's ranking test (128-token generation at 16k context, 2 users); 1 user: 39.1 tok/s and 2,132 tok/s prefill with no context, 24.2 tok/s at 100k context. Listed (Oct 17, 2026).
 
 [All Qwen3.8-27B recipes](README.md) · [All recipes](../../README.md)
